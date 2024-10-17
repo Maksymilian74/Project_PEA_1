@@ -1,0 +1,20 @@
+# Plik konfiguracyjny programu
+
+# Generowanie danych losowych (0 - nie, 1 - tak)
+generate_data = 1
+# Nazwa pliku wejsciowego
+input_file = matrix_6x6.atsp
+# Rozmiar instancji
+instance_size = 6
+# Czy wyswietlic macierz (0 - nie, 1 - tak)
+display_matrix = 1
+# Liczba iteracji
+iterations = 100
+# Liczba iteracji dla danej instancji
+instance_iterations = 1
+# Algorytm do uruchomienia (brute_force, nearest_neighbor, random)
+algorithm = nearest_neighbor
+# Nazwa pliku wyjsciowego
+output_file = result.csv
+# Wlaczenie paska postepu (0 - nie, 1 - tak)
+progress_bar = 0
