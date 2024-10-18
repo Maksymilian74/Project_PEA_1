@@ -1,4 +1,7 @@
 #include "Menu.h"
+#include "../Structures/Matrix.h"
+#include "../Utils/ReadFile.h"
+#include "../Utils/GenerateMatrix.h"
 #include <iostream>
 #include <fstream>
 
@@ -20,6 +23,27 @@ Menu::Menu() {
 void Menu::run() {
     // Wczytanie konfiguracji z pliku config.txt
     loadConfig("config.txt");
+
+    // Stworzenie macierzy o rozmiarze instanceSize
+    Matrix matrix(instanceSize);
+    GenerateMatrix generator;
+    generator.fillRandom(matrix);  // Generujemy losowe dane bez potrzeby podawania maxCost
+    cout << "Wygenerowano losowe dane dla macierzy." << endl;
+
+//    // Wczytanie danych do macierzy
+//    ReadFile fileReader;
+//    try {
+//        fileReader.loadData(inputFile, matrix);
+//    } catch (const std::runtime_error& e) {
+//        cerr << e.what() << endl;
+//        return;  // Zakoncz program, jesli nie uda sie wczytac danych
+//    }
+
+    // Opcjonalne wyswietlenie macierzy, jesli w konfiguracji jest ustawione
+    if (displayMatrix) {
+        matrix.display();
+    }
+
 //    // Wyswietlanie wczytanych wartosci
 //    cout << "--- Wczytane dane z pliku konfiguracyjnego ---" << endl;
 //    cout << "Generowanie danych: " << (generateData ? "Tak" : "Nie") << endl;

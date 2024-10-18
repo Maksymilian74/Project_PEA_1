@@ -2,12 +2,12 @@
 
 // Konstruktor
 Matrix::Matrix(int n) : size(n) {
-    // Alokacja pamięci dla macierzy
+    // Alokacja pamieci dla macierzy
     matrix = new int*[size];
     for (int i = 0; i < size; ++i) {
         matrix[i] = new int[size];
         for (int j = 0; j < size; ++j) {
-            matrix[i][j] = -1; // Domyślna wartość dla macierzy kosztów
+            matrix[i][j] = -1; // Domyslna wartosc dla macierzy kosztow
         }
     }
 }
@@ -20,7 +20,7 @@ Matrix::~Matrix() {
     delete[] matrix;
 }
 
-// Metoda do wyświetlania macierzy
+// Metoda do wyswietlania macierzy
 void Matrix::display() const {
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
@@ -34,7 +34,7 @@ void Matrix::display() const {
     }
 }
 
-// Metoda do pobierania wartości z macierzy
+// Metoda do pobierania wartosci z macierzy
 int Matrix::getCost(int i, int j) const {
     if (i < 0 || i >= size || j < 0 || j >= size) {
         throw std::out_of_range("Indeks poza zakresem macierzy");
@@ -42,7 +42,7 @@ int Matrix::getCost(int i, int j) const {
     return matrix[i][j];
 }
 
-// Metoda do ustawiania wartości w macierzy
+// Metoda do ustawiania wartosci w macierzy
 void Matrix::setCost(int i, int j, int cost) {
     if (i < 0 || i >= size || j < 0 || j >= size) {
         throw std::out_of_range("Indeks poza zakresem macierzy");
@@ -50,7 +50,7 @@ void Matrix::setCost(int i, int j, int cost) {
     matrix[i][j] = cost;
 }
 
-// Getter zwracający rozmiar macierzy
+// Getter zwracajacy rozmiar macierzy
 int Matrix::getSize() const {
     return size;
 }

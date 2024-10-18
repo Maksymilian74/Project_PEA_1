@@ -7,8 +7,8 @@
 
 class Matrix {
 private:
-    int size;        // Liczba miast (rozmiar macierzy)
-    int** matrix;    // Macierz kosztów
+    int size;        // Rozmiar macierzy
+    int** matrix;    // Macierz kosztow
 
 public:
     // Konstruktor
@@ -17,16 +17,16 @@ public:
     // Destruktor
     ~Matrix();
 
-    // Metoda do wyświetlania macierzy
+    // Metoda do wyswietlania macierzy
     void display() const;
 
-    // Metoda do pobierania wartości z macierzy
+    // Metoda do pobierania wartosci z macierzy
     int getCost(int i, int j) const;
 
-    // Metoda do ustawiania wartości w macierzy
+    // Metoda do ustawiania wartosci w macierzy
     void setCost(int i, int j, int cost);
 
-    // Getter zwracający rozmiar macierzy
+    // Getter zwracajacy rozmiar macierzy
     int getSize() const;
 };
 
