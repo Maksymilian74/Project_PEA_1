@@ -1,6 +1,7 @@
 #include "Algorithms.h"
 #include <climits>  // Dla INT_MAX
 #include <iostream>
+#include <cstdlib>
 
 using namespace std;
 
@@ -71,6 +72,57 @@ int Algorithms::nearestNeighbor(const Matrix& matrix, vector<int>& bestPath) {
 
     return totalCost;
 }
+
+// Metoda losowego algorytmu
+int Algorithms::randomAlgorithm(const Matrix& matrix, vector<int>& bestPath, int iterations) {
+    int size = matrix.getSize();
+    int minCost = INT_MAX;  // Inicjalizacja minimalnego kosztu na najwieksza mozliwa wartosc
+
+    // Seed do generatora losowego
+    srand(static_cast<unsigned int>(time(nullptr)));
+
+    // Powtarzamy algorytm losowy przez okreslona liczbe iteracji
+    for (int iter = 0; iter < iterations; ++iter) {
+        vector<int> cities;  // Przechowuje losowa trase
+        vector<bool> visited(size, false);  // Sledzi odwiedzone miasta
+
+        int currentCity = 0;  // Zaczynamy od miasta 0
+        cities.push_back(currentCity);
+        visited[currentCity] = true;  // Oznaczamy miasto 0 jako odwiedzone
+
+        // Budujemy losowa trase, wybierajac kolejne miasta
+        for (int step = 1; step < size; ++step) {
+            vector<int> remainingCities;  // Miasta jeszcze nieodwiedzone
+            for (int i = 0; i < size; ++i) {
+                if (!visited[i]) {
+                    remainingCities.push_back(i);
+                }
+            }
+
+            // Losowo wybieramy jedno z pozostalych nieodwiedzonych miast
+            if (remainingCities.empty()) {
+                cerr << "Blad: Brak dostepnych miast do odwiedzenia!" << endl;
+                return -1;  // Nieprawidlowy stan
+            }
+
+            int nextCity = remainingCities[rand() % remainingCities.size()];
+            cities.push_back(nextCity);
+            visited[nextCity] = true;  // Oznaczamy wybrane miasto jako odwiedzone
+        }
+
+        // Obliczanie kosztu dla losowej trasy
+        int currentCost = calculatePathCost(matrix, cities);
+
+        // Sprawdzanie, czy obliczony koszt trasy jest mniejszy od aktualnego minimalnego kosztu
+        if (currentCost < minCost) {
+            minCost = currentCost;
+            bestPath = cities;  // Zapisujemy najlepsza trase
+        }
+    }
+
+    return minCost;
+}
+
 
 // Pomocnicza metoda do obliczania kosztu dla danej permutacji trasy
 int Algorithms::calculatePathCost(const Matrix& matrix, const vector<int>& path) {

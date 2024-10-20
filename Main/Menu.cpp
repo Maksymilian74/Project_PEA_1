@@ -5,8 +5,11 @@
 #include "../Algorithms/Algorithms.h"
 #include <iostream>
 #include <fstream>
+#include <vector>
+#include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 
 Menu::Menu() {
     // Inicjalizacja domyslnych wartosci zmiennych
@@ -19,64 +22,83 @@ Menu::Menu() {
     outputFile = "";
     instanceIterations = 0;
     progressBar = false;
+    timer = 0;
 }
 
 void Menu::run() {
     // Wczytanie konfiguracji z pliku config.txt
     loadConfig("config.txt");
 
-    // Stworzenie macierzy o rozmiarze instanceSize
-    Matrix matrix(instanceSize);
-//    GenerateMatrix generator;
-//    generator.fillRandom(matrix);  // Generujemy losowe dane bez potrzeby podawania maxCost
-//    cout << "Wygenerowano losowe dane dla macierzy." << endl;
+    srand(time(nullptr));
 
-    // Wczytanie danych do macierzy
-    ReadFile fileReader;
-    try {
-        fileReader.loadData(inputFile, matrix);
-    } catch (const std::runtime_error& e) {
-        cerr << e.what() << endl;
-        return;  // Zakoncz program, jesli nie uda sie wczytac danych
-    }
+    // Algorytm przechodzi przez iterations głównych pętli
+    timer = 0;
+    for (int i = 0; i < iterations; ++i) {
+        Matrix matrix(instanceSize);  // Tworzymy macierz o rozmiarze instance_size
 
-    // Opcjonalne wyswietlenie macierzy, jesli w konfiguracji jest ustawione
-    if (displayMatrix) {
-        matrix.display();
-
-        // Wywolanie wybranego algorytmu
-        Algorithms algorithms;
-        vector<int> bestPath;
-        int minCost = 0;
-
-        if (algorithm == "brute_force") {
-            minCost = algorithms.bruteForce(matrix, bestPath);
-            cout << "Algorytm przeglądu zupełnego (Brute Force)." << endl;
-        } else if (algorithm == "nearest_neighbor") {
-            minCost = algorithms.nearestNeighbor(matrix, bestPath);
-            cout << "Algorytm najbliższych sąsiadów." << endl;
+        if (generateData) {
+            // Wypełniamy macierz losowymi danymi
+            GenerateMatrix generator;
+            generator.fillRandom(matrix);  // Generujemy losowe dane
+            cout << "Wygenerowano losowe dane dla macierzy." << endl;
+        } else {
+            // Wczytanie danych do macierzy z pliku
+            ReadFile fileReader;
+            try {
+                fileReader.loadData(inputFile, matrix);
+                cout << "Wczytano dane z pliku: " << inputFile << endl;
+            } catch (const std::runtime_error& e) {
+                cerr << e.what() << endl;
+                return;  // Zakoncz program, jesli nie uda sie wczytac danych
+            }
         }
 
-        // Wyswietlenie wyników
-        cout << "Minimalny koszt trasy: " << minCost << endl;
-        cout << "Najlepsza trasa: ";
-        for (int city : bestPath) {
-            cout << city << " ";
+        // Wyświetlanie macierzy, jeśli display_matrix jest ustawione na 1
+        if (displayMatrix) {
+            matrix.display();
         }
-        cout << endl;
-    }
 
-//    // Wyswietlanie wczytanych wartosci
-//    cout << "--- Wczytane dane z pliku konfiguracyjnego ---" << endl;
-//    cout << "Generowanie danych: " << (generateData ? "Tak" : "Nie") << endl;
-//    cout << "Plik wejsciowy: " << inputFile << endl;
-//    cout << "Rozmiar instancji: " << instanceSize << endl;
-//    cout << "Wyswietlanie macierzy: " << (displayMatrix ? "Tak" : "Nie") << endl;
-//    cout << "Liczba iteracji: " << iterations << endl;
-//    cout << "Algorytm: " << algorithm << endl;
-//    cout << "Plik wyjsciowy: " << outputFile << endl;
-//    cout << "Liczba iteracji dla instancji: " << instanceIterations << endl;
-//    cout << "Pasek postepu: " << (progressBar ? "Tak" : "Nie") << endl;
+        // Pętla zależna od instance_iterations (dla tej samej macierzy)
+        for (int j = 0; j < instanceIterations; ++j) {
+            vector<int> bestPath;
+            int minCost = 0;
+
+            Algorithms algorithms;
+
+            // Wybrany algorytm na podstawie parametru algorithm
+            if (algorithm == "brute_force") {
+                start = high_resolution_clock::now();
+                minCost = algorithms.bruteForce(matrix, bestPath);
+                stop = high_resolution_clock::now();
+                cout << "Algorytm przegladu zupelnego." << endl;
+            } else if (algorithm == "nearest_neighbor") {
+                start = high_resolution_clock::now();
+                minCost = algorithms.nearestNeighbor(matrix, bestPath);
+                stop = high_resolution_clock::now();
+                cout << "Algorytm najblizszych sasiadow." << endl;
+            } else if (algorithm == "random") {
+                start = high_resolution_clock::now();
+                minCost = algorithms.randomAlgorithm(matrix, bestPath, 100);  // Przykladowo 100 iteracji w algorytmie losowym
+                stop = high_resolution_clock::now();
+                cout << "Algorytm losowy." << endl;
+            } else {
+                cerr << "Blad: Nieznany algorytm!" << endl;
+                return;  // Zakonczenie programu, jesli algorytm jest nieznany
+            }
+
+            timer += duration_cast<duration<double, milli>>(stop - start).count();
+
+            // Wyświetlenie wyników
+            cout << "Minimalny koszt trasy: " << minCost << endl;
+            cout << "Najlepsza trasa: ";
+            for (int city : bestPath) {
+                cout << city << " ";
+            }
+            cout << endl << endl << endl;
+        }
+    }
+    cout << "Algorytm " << algorithm << " sredni czas: " << timer / iterations << " ms\n";
+
 }
 
 void Menu::loadConfig(const string& configFile) {

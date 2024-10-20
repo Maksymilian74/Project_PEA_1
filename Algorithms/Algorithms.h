@@ -12,6 +12,9 @@ public:
     // Metoda algorytmu najbliższych sasiadow dla problemu TSP
     int nearestNeighbor(const Matrix& matrix, std::vector<int>& bestPath);
 
+    // Metoda losowego algorytmu (random)
+    int randomAlgorithm(const Matrix& matrix, std::vector<int>& bestPath, int iterations);
+
 private:
     // Pomocnicza metoda do obliczenia sumy kosztow dla danej permutacji trasy
     int calculatePathCost(const Matrix& matrix, const std::vector<int>& path);

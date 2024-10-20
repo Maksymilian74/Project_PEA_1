@@ -8,7 +8,9 @@
 #define PROJEKT_PEA_1_MENU_H
 
 #include <string>
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
 
 class Menu {
 public:
@@ -27,6 +29,8 @@ private:
     string algorithm;
     string outputFile;
     bool progressBar;
+    high_resolution_clock::time_point start, stop;  // Punkty czasowe do mierzenia czasu wykonania
+    double timer;  // Zmienna do przechowywania zmierzonego czasu
 
     string extractValue(const string& line); // Pomocnicza metoda do wyciagania wartosci po "="
 };
