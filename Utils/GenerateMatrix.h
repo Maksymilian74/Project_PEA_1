@@ -1,3 +1,9 @@
+/*
+ * Klasa GenerateMatrix odpowiedzialna jest za generowanie
+ * losowych danych dla macierzy kosztow, wypelnia macierz
+ * losowymi wartosciami z danego zakresu
+ */
+
 #ifndef PROJEKT_PEA_1_GENERATEMATRIX_H
 #define PROJEKT_PEA_1_GENERATEMATRIX_H
 
@@ -5,7 +11,7 @@
 
 class GenerateMatrix {
 public:
-    // Metoda generująca losowe wartosci i wypelniająca nimi macierz
+    // Metoda generujaca losowe wartosci i wypelniająca macierz
     void fillRandom(Matrix& matrix);
 };
 

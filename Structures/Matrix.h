@@ -1,3 +1,9 @@
+/*
+ * Klasa Matrix odpowiedzialna jest za implementacje macierzy kosztow,
+ * zapewnia mechanike ustawiania oraz pobierania kosztow,
+ * a takze wyswietlania macierzy.
+ */
+
 #ifndef PROJEKT_PEA_1_MATRIX_H
 #define PROJEKT_PEA_1_MATRIX_H
 
@@ -17,13 +23,13 @@ public:
     // Destruktor
     ~Matrix();
 
-    // Metoda do wyswietlania macierzy
+    // Metoda odpowiedzialna za wyswietlenie macierzy
     void display() const;
 
-    // Metoda do pobierania wartosci z macierzy
+    // Metoda odpowiedzialna za pobieranie wartosci z macierzy
     int getCost(int i, int j) const;
 
-    // Metoda do ustawiania wartosci w macierzy
+    // Metoda odpowiedzialna za ustawienie wartosci w macierzy
     void setCost(int i, int j, int cost);
 
     // Getter zwracajacy rozmiar macierzy

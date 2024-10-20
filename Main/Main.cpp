@@ -2,7 +2,7 @@
 
 int main() {  // Glowna metoda programu
     Menu menu;
-    menu.run(); // Wywolanie metody odpowiedzialnej za rozdzielenie zadan
+    menu.run();  // Uruchomienie glownej logiki programu
     return 0;
 }
 

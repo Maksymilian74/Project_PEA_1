@@ -20,7 +20,7 @@ Matrix::~Matrix() {
     delete[] matrix;
 }
 
-// Metoda do wyswietlania macierzy
+// Metoda odpowiedzialna za wyswietlenie macierzy
 void Matrix::display() const {
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
@@ -34,7 +34,7 @@ void Matrix::display() const {
     }
 }
 
-// Metoda do pobierania wartosci z macierzy
+// Metoda odpowiedzialna za pobieranie wartosci z macierzy
 int Matrix::getCost(int i, int j) const {
     if (i < 0 || i >= size || j < 0 || j >= size) {
         throw std::out_of_range("Indeks poza zakresem macierzy");
@@ -42,7 +42,7 @@ int Matrix::getCost(int i, int j) const {
     return matrix[i][j];
 }
 
-// Metoda do ustawiania wartosci w macierzy
+// Metoda odpowiedzialna za ustawienie wartosci w macierzy
 void Matrix::setCost(int i, int j, int cost) {
     if (i < 0 || i >= size || j < 0 || j >= size) {
         throw std::out_of_range("Indeks poza zakresem macierzy");

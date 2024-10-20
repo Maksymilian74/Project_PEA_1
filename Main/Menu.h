@@ -1,7 +1,7 @@
 /*
- * Klasa Menu odpowiedzialna jest za pobranie danych z pliku konfiguracyjnego,
- *
- *
+ * Klasa Menu odpowiedzialna jest za zarzadzanie glowna logika programu.
+ * Odpowiada za wczytywanie konfiguracji z pliku, tworzenie macierzy,
+ * wybieranie i uruchamianie odpowiedniego algorytmu oraz za mierzenie czasu
  */
 
 #ifndef PROJEKT_PEA_1_MENU_H
@@ -9,28 +9,28 @@
 
 #include <string>
 #include <chrono>
+
 using namespace std;
 using namespace std::chrono;
 
 class Menu {
 public:
     Menu();  // Konstruktor
-    void run();  // Glowna metoda uruchamiajaca dzialanie klasy
-    void loadConfig(const string& configFile);  // Wczytuje dane z pliku konfiguracyjnego
+    void run();  // Glowna metoda uruchamiajaca dzialanie programu
+    void loadConfig(const string& configFile);  // Metoda odpowiedzialna za wczytanie danych z pliku konfiguracyjnego
 
 private:
-    // Zmienne przechowujące dane z pliku konfiguracyjnego
-    bool generateData;
-    string inputFile;
-    int instanceSize;
-    bool displayMatrix;
-    int iterations;
-    int instanceIterations;
-    string algorithm;
-    string outputFile;
-    bool progressBar;
-    high_resolution_clock::time_point start, stop;  // Punkty czasowe do mierzenia czasu wykonania
-    double timer;  // Zmienna do przechowywania zmierzonego czasu
+    bool generateData;   // Zmienna przechowujaca informacje czy generowac dane losowe
+    string inputFile;  // Zmienna przechowujaca nazwe pliku wejsciowego
+    int instanceSize;  // Zmienna przechowujaca rozmiar instancji macierzy
+    bool displayMatrix;   // Zmienna przechowujaca informacje czy wyswietlac macierz
+    int iterations;  // Zmienna przechowujaca liczbe iteracji
+    int instanceIterations;  // Zmienna przechowujaca liczbe iteracji dla tej samej instancji
+    string algorithm;  // Zmienna przechowujaca nazwe wybranego algorytmu do uruchomienia
+    string outputFile;  // Zmienna przechowujaca nazwe pliku wyjsciowego
+    bool progressBar;  // Zmienna przechowujaca informacje czy wyswietlac pasek postepu
+    high_resolution_clock::time_point start, stop;  // Zmienne do przechowywania punktow czasowych do mierzenia czasu wykonania
+    double timer;  // Zmienna przechowujaca zmierzony czas wykonania algorytmu
 
     string extractValue(const string& line); // Pomocnicza metoda do wyciagania wartosci po "="
 };

@@ -11,8 +11,8 @@
 using namespace std;
 using namespace std::chrono;
 
+// Konstruktor odpowiedzialny za inicjalizacje domyslnych wartosci zmiennych
 Menu::Menu() {
-    // Inicjalizacja domyslnych wartosci zmiennych
     generateData = false;
     inputFile = "";
     instanceSize = 0;
@@ -25,31 +25,28 @@ Menu::Menu() {
     timer = 0;
 }
 
+// Glowna metoda odpowiedzialna za wykonanie programu na podstawie wczytanej konfiguracji
 void Menu::run() {
-    // Wczytanie konfiguracji z pliku config.txt
-    loadConfig("config.txt");
+    loadConfig("config.txt");  // Wczytanie konfiguracji z pliku config.txt
 
-    srand(time(nullptr));
+    srand(time(nullptr));  // Inicjalizacja generatora liczb losowych
 
-    // Algorytm przechodzi przez iterations głównych pętli
     timer = 0;
     for (int i = 0; i < iterations; ++i) {
-        Matrix matrix(instanceSize);  // Tworzymy macierz o rozmiarze instance_size
+        Matrix matrix(instanceSize);  // Tworzebie macierzy o rozmiarze instanceSize
 
         if (generateData) {
-            // Wypełniamy macierz losowymi danymi
             GenerateMatrix generator;
-            generator.fillRandom(matrix);  // Generujemy losowe dane
+            generator.fillRandom(matrix);  // Generowanie losowych danych
             cout << "Wygenerowano losowe dane dla macierzy." << endl;
         } else {
-            // Wczytanie danych do macierzy z pliku
             ReadFile fileReader;
             try {
-                fileReader.loadData(inputFile, matrix);
+                fileReader.loadData(inputFile, matrix);  // Wczytanie danych do macierzy z pliku
                 cout << "Wczytano dane z pliku: " << inputFile << endl;
             } catch (const std::runtime_error& e) {
                 cerr << e.what() << endl;
-                return;  // Zakoncz program, jesli nie uda sie wczytac danych
+                return;
             }
         }
 
@@ -58,32 +55,34 @@ void Menu::run() {
             matrix.display();
         }
 
-        // Pętla zależna od instance_iterations (dla tej samej macierzy)
         for (int j = 0; j < instanceIterations; ++j) {
             vector<int> bestPath;
             int minCost = 0;
 
             Algorithms algorithms;
 
-            // Wybrany algorytm na podstawie parametru algorithm
+            // Uruchomienie wybranego algorytmu na podstawie parametru algorithm
             if (algorithm == "brute_force") {
                 start = high_resolution_clock::now();
                 minCost = algorithms.bruteForce(matrix, bestPath);
                 stop = high_resolution_clock::now();
                 cout << "Algorytm przegladu zupelnego." << endl;
+
             } else if (algorithm == "nearest_neighbor") {
                 start = high_resolution_clock::now();
                 minCost = algorithms.nearestNeighbor(matrix, bestPath);
                 stop = high_resolution_clock::now();
                 cout << "Algorytm najblizszych sasiadow." << endl;
+
             } else if (algorithm == "random") {
                 start = high_resolution_clock::now();
-                minCost = algorithms.randomAlgorithm(matrix, bestPath, 100);  // Przykladowo 100 iteracji w algorytmie losowym
+                minCost = algorithms.randomAlgorithm(matrix, bestPath, 100);
                 stop = high_resolution_clock::now();
                 cout << "Algorytm losowy." << endl;
+
             } else {
                 cerr << "Blad: Nieznany algorytm!" << endl;
-                return;  // Zakonczenie programu, jesli algorytm jest nieznany
+                return;
             }
 
             timer += duration_cast<duration<double, milli>>(stop - start).count();
@@ -101,6 +100,7 @@ void Menu::run() {
 
 }
 
+// Metoda odpowiedzialna za wczytywanie konfiguracji z pliku konfiguracyjnego
 void Menu::loadConfig(const string& configFile) {
     ifstream file(configFile);
     if (!file.is_open()) {
@@ -117,7 +117,7 @@ void Menu::loadConfig(const string& configFile) {
             continue;
         }
 
-        string value = extractValue(line);  // Wyciągamy wartosc po znaku "="
+        string value = extractValue(line);  // Wyciąganie wartosci po znaku "="
 
         // Przypisanie wartosci na podstawie numeru linii
         switch (lineCount) {
@@ -160,7 +160,7 @@ void Menu::loadConfig(const string& configFile) {
 string Menu::extractValue(const string& line) {
     size_t tmp = line.find("=");
     if (tmp != string::npos) {
-        return line.substr(tmp + 2);  // Zwracamy to, co po "="
+        return line.substr(tmp + 2);
     }
-    return "";  // W przypadku bledu
+    return "";
 }
