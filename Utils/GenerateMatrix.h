@@ -5,7 +5,7 @@
 
 class GenerateMatrix {
 public:
-    // Metoda generująca losowe wartosci i wypełniająca nimi macierz
+    // Metoda generująca losowe wartosci i wypelniająca nimi macierz
     void fillRandom(Matrix& matrix);
 };
 

@@ -1,7 +1,7 @@
 # Plik konfiguracyjny programu
 
 # Generowanie danych losowych (0 - nie, 1 - tak)
-generate_data = 1
+generate_data = 0
 # Nazwa pliku wejsciowego
 input_file = matrix_6x6.atsp
 # Rozmiar instancji

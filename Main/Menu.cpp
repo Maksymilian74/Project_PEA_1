@@ -2,6 +2,7 @@
 #include "../Structures/Matrix.h"
 #include "../Utils/ReadFile.h"
 #include "../Utils/GenerateMatrix.h"
+#include "../Algorithms/Algorithms.h"
 #include <iostream>
 #include <fstream>
 
@@ -26,22 +27,43 @@ void Menu::run() {
 
     // Stworzenie macierzy o rozmiarze instanceSize
     Matrix matrix(instanceSize);
-    GenerateMatrix generator;
-    generator.fillRandom(matrix);  // Generujemy losowe dane bez potrzeby podawania maxCost
-    cout << "Wygenerowano losowe dane dla macierzy." << endl;
+//    GenerateMatrix generator;
+//    generator.fillRandom(matrix);  // Generujemy losowe dane bez potrzeby podawania maxCost
+//    cout << "Wygenerowano losowe dane dla macierzy." << endl;
 
-//    // Wczytanie danych do macierzy
-//    ReadFile fileReader;
-//    try {
-//        fileReader.loadData(inputFile, matrix);
-//    } catch (const std::runtime_error& e) {
-//        cerr << e.what() << endl;
-//        return;  // Zakoncz program, jesli nie uda sie wczytac danych
-//    }
+    // Wczytanie danych do macierzy
+    ReadFile fileReader;
+    try {
+        fileReader.loadData(inputFile, matrix);
+    } catch (const std::runtime_error& e) {
+        cerr << e.what() << endl;
+        return;  // Zakoncz program, jesli nie uda sie wczytac danych
+    }
 
     // Opcjonalne wyswietlenie macierzy, jesli w konfiguracji jest ustawione
     if (displayMatrix) {
         matrix.display();
+
+        // Wywolanie wybranego algorytmu
+        Algorithms algorithms;
+        vector<int> bestPath;
+        int minCost = 0;
+
+        if (algorithm == "brute_force") {
+            minCost = algorithms.bruteForce(matrix, bestPath);
+            cout << "Algorytm przeglądu zupełnego (Brute Force)." << endl;
+        } else if (algorithm == "nearest_neighbor") {
+            minCost = algorithms.nearestNeighbor(matrix, bestPath);
+            cout << "Algorytm najbliższych sąsiadów." << endl;
+        }
+
+        // Wyswietlenie wyników
+        cout << "Minimalny koszt trasy: " << minCost << endl;
+        cout << "Najlepsza trasa: ";
+        for (int city : bestPath) {
+            cout << city << " ";
+        }
+        cout << endl;
     }
 
 //    // Wyswietlanie wczytanych wartosci
