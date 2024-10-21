@@ -20,8 +20,9 @@ Menu::Menu() {
     iterations = 0;
     algorithm = "";
     outputFile = "";
-    instanceIterations = 0;
+    randomIterations = 0;
     progressBar = false;
+    showResults = 0;
     timer = 0;
 }
 
@@ -31,54 +32,52 @@ void Menu::run() {
 
     srand(time(nullptr));  // Inicjalizacja generatora liczb losowych
 
+    Matrix matrix(instanceSize);  // Tworzenie macierzy o rozmiarze instanceSize
+
+    if (!generateData) {
+        ReadFile fileReader;
+        try {
+            fileReader.loadData(inputFile, matrix);  // Wczytanie danych do macierzy z pliku
+        } catch (const runtime_error& e) {
+            cerr << e.what() << endl;
+            return;
+        }
+    }
+
+    GenerateMatrix generator;  // Tworzenie obiektu generatora losowych danych
+
+    Algorithms algorithms;  // Tworzenie obiektu klasy z algorytmami
+
     timer = 0;
     for (int i = 0; i < iterations; ++i) {
-        Matrix matrix(instanceSize);  // Tworzebie macierzy o rozmiarze instanceSize
 
+        // Wypelnienie macierzy losowymi danymi dla kazdej iteracji
         if (generateData) {
-            GenerateMatrix generator;
-            generator.fillRandom(matrix);  // Generowanie losowych danych
-            cout << "Wygenerowano losowe dane dla macierzy." << endl;
-        } else {
-            ReadFile fileReader;
-            try {
-                fileReader.loadData(inputFile, matrix);  // Wczytanie danych do macierzy z pliku
-                cout << "Wczytano dane z pliku: " << inputFile << endl;
-            } catch (const std::runtime_error& e) {
-                cerr << e.what() << endl;
-                return;
-            }
+            generator.fillRandom(matrix);
         }
 
-        // Wyświetlanie macierzy, jeśli display_matrix jest ustawione na 1
+        // Wyswietlanie macierzy
         if (displayMatrix) {
             matrix.display();
         }
-
-        for (int j = 0; j < instanceIterations; ++j) {
             vector<int> bestPath;
             int minCost = 0;
-
-            Algorithms algorithms;
 
             // Uruchomienie wybranego algorytmu na podstawie parametru algorithm
             if (algorithm == "brute_force") {
                 start = high_resolution_clock::now();
                 minCost = algorithms.bruteForce(matrix, bestPath);
                 stop = high_resolution_clock::now();
-                cout << "Algorytm przegladu zupelnego." << endl;
 
             } else if (algorithm == "nearest_neighbor") {
                 start = high_resolution_clock::now();
                 minCost = algorithms.nearestNeighbor(matrix, bestPath);
                 stop = high_resolution_clock::now();
-                cout << "Algorytm najblizszych sasiadow." << endl;
 
             } else if (algorithm == "random") {
                 start = high_resolution_clock::now();
-                minCost = algorithms.randomAlgorithm(matrix, bestPath, 100);
+                minCost = algorithms.randomAlgorithm(matrix, bestPath, randomIterations);
                 stop = high_resolution_clock::now();
-                cout << "Algorytm losowy." << endl;
 
             } else {
                 cerr << "Blad: Nieznany algorytm!" << endl;
@@ -87,16 +86,17 @@ void Menu::run() {
 
             timer += duration_cast<duration<double, milli>>(stop - start).count();
 
-            // Wyświetlenie wyników
+        if (showResults) {
+            // Wyswietlenie wynikow
             cout << "Minimalny koszt trasy: " << minCost << endl;
             cout << "Najlepsza trasa: ";
-            for (int city : bestPath) {
+            for (int city: bestPath) {
                 cout << city << " ";
             }
             cout << endl << endl << endl;
         }
     }
-    cout << "Algorytm " << algorithm << " sredni czas: " << timer / iterations << " ms\n";
+    cout << "Algorytm " << algorithm << ", dla macierzy o rozmiarze: " << instanceSize << ", sredni czas: " << timer / iterations << " ms\n";
 
 }
 
@@ -137,7 +137,7 @@ void Menu::loadConfig(const string& configFile) {
                 iterations = stoi(value);
                 break;
             case 5:
-                instanceIterations = stoi(value);
+                randomIterations = stoi(value);
                 break;
             case 6:
                 algorithm = value;
@@ -147,6 +147,9 @@ void Menu::loadConfig(const string& configFile) {
                 break;
             case 8:
                 progressBar = (value == "1");
+                break;
+            case 9:
+                showResults = (value == "1");
                 break;
         }
 

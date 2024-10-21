@@ -25,10 +25,11 @@ private:
     int instanceSize;  // Zmienna przechowujaca rozmiar instancji macierzy
     bool displayMatrix;   // Zmienna przechowujaca informacje czy wyswietlac macierz
     int iterations;  // Zmienna przechowujaca liczbe iteracji
-    int instanceIterations;  // Zmienna przechowujaca liczbe iteracji dla tej samej instancji
+    int randomIterations;  // Zmienna przechowujaca liczbe iteracji dla algorytmu losowego
     string algorithm;  // Zmienna przechowujaca nazwe wybranego algorytmu do uruchomienia
     string outputFile;  // Zmienna przechowujaca nazwe pliku wyjsciowego
     bool progressBar;  // Zmienna przechowujaca informacje czy wyswietlac pasek postepu
+    bool showResults;  // Zmienna przechowujaca informacje czy wyswietlac wyniki dzialania algorytmu
     high_resolution_clock::time_point start, stop;  // Zmienne do przechowywania punktow czasowych do mierzenia czasu wykonania
     double timer;  // Zmienna przechowujaca zmierzony czas wykonania algorytmu
 

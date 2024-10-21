@@ -3,18 +3,20 @@
 # Generowanie danych losowych (0 - nie, 1 - tak)
 generate_data = 0
 # Nazwa pliku wejsciowego
-input_file = matrix_11x11.atsp
+input_file = matrix_6x6.atsp
 # Rozmiar instancji
-instance_size = 11
+instance_size = 6
 # Czy wyswietlic macierz (0 - nie, 1 - tak)
-display_matrix = 1
+display_matrix = 0
 # Liczba iteracji
-iterations = 1
-# Liczba iteracji dla danej instancji
-instance_iterations = 1
+iterations = 10
+# Liczba iteracji dla algorytmu losowego
+random_iterations = 1
 # Algorytm do uruchomienia (brute_force, nearest_neighbor, random)
-algorithm = random
+algorithm = brute_force
 # Nazwa pliku wyjsciowego
 output_file = result.csv
 # Wlaczenie paska postepu (0 - nie, 1 - tak)
 progress_bar = 0
+# Wyswietlanie wynikow algorytmu
+show_results = 0

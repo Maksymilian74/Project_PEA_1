@@ -10,10 +10,12 @@
 #include <string>
 #include "../Structures/Matrix.h"
 
+using namespace std;
+
 class ReadFile {
 public:
     // Metoda odpowiedzialna za wczytywanie danych z pliku do macierzy
-    void loadData(const std::string& filename, Matrix& matrix);
+    void loadData(const string& filename, Matrix& matrix);
 };
 
 #endif

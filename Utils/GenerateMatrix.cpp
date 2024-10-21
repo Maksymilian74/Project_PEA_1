@@ -1,6 +1,8 @@
 #include "GenerateMatrix.h"
 #include <cstdlib>
 
+using namespace std;
+
 // Metoda odpowiedzialna za generowanie losowych wartosci dla macierzy kosztow
 void GenerateMatrix::fillRandom(Matrix& matrix) {
     int size = matrix.getSize();
@@ -11,7 +13,7 @@ void GenerateMatrix::fillRandom(Matrix& matrix) {
             if (i == j) {
                 matrix.setCost(i, j, -1);  //  Ustawienie -1 na przekatnej
             } else {
-                int cost = std::rand() % maxCost + 1;  // Losowanie wartosci z zakresu [1, maxCost]
+                int cost = rand() % maxCost + 1;  // Losowanie wartosci z zakresu [1, maxCost]
                 matrix.setCost(i, j, cost);
             }
         }
