@@ -10,7 +10,7 @@ int Algorithms::bruteForce(const Matrix& matrix, vector<int>& bestPath) {
     int size = matrix.getSize();
     vector<int> cities(size);  // Wektor miast
     for (int i = 0; i < size; ++i) {
-        cities[i] = i;  // Wypelnienie miastami od 0 do (size - 1)
+        cities[i] = i;
     }
 
     int minCost = INT_MAX;  // Inicjalizacja minimalnego kosztu na najwieksza mozliwa wartosc
@@ -103,7 +103,7 @@ int Algorithms::randomAlgorithm(const Matrix& matrix, vector<int>& bestPath, int
 
             int nextCity = remainingCities[rand() % remainingCities.size()];
             cities.push_back(nextCity);
-            visited[nextCity] = true;  // Oznaczeniey wybranego miasta jako odwiedzone
+            visited[nextCity] = true;  // Oznaczenie wybranego miasta jako odwiedzone
         }
 
         // Obliczanie kosztu dla losowej trasy
