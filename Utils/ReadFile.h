@@ -14,6 +14,9 @@ using namespace std;
 
 class ReadFile {
 public:
+    // Metoda odpowiedzialna za wczytanie rozmiaru macierzy z pliku
+    int getMatrixSize(const string& filename);
+
     // Metoda odpowiedzialna za wczytywanie danych z pliku do macierzy
     void loadData(const string& filename, Matrix& matrix);
 };

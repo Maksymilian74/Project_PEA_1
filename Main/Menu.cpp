@@ -32,16 +32,24 @@ void Menu::run() {
 
     srand(time(nullptr));  // Inicjalizacja generatora liczb losowych
 
-    Matrix matrix(instanceSize);  // Tworzenie macierzy o rozmiarze instanceSize
+    Matrix* matrix = nullptr;  // Wskaźnik do dynamicznie alokowanej macierzy
 
     if (!generateData) {
         ReadFile fileReader;
+        int fileMatrixSize;
         try {
-            fileReader.loadData(inputFile, matrix);  // Wczytanie danych do macierzy z pliku
+            // Wczytywanie rozmiaru macierzy z pliku
+            fileMatrixSize = fileReader.getMatrixSize(inputFile);
+            matrix = new Matrix(fileMatrixSize);
+
+            fileReader.loadData(inputFile, *matrix);  // Wczytanie danych do macierzy z pliku
         } catch (const runtime_error& e) {
             cerr << e.what() << endl;
             return;
         }
+    }  else {
+        // Tworzenie macierzy na podstawie rozmiaru z konfiguracji
+        matrix = new Matrix(instanceSize);
     }
 
     GenerateMatrix generator;  // Tworzenie obiektu generatora losowych danych
@@ -53,12 +61,12 @@ void Menu::run() {
 
         // Wypelnienie macierzy losowymi danymi dla kazdej iteracji
         if (generateData) {
-            generator.fillRandom(matrix);
+            generator.fillRandom(*matrix);
         }
 
         // Wyswietlanie macierzy
         if (displayMatrix) {
-            matrix.display();
+            matrix->display();
         }
             vector<int> bestPath;
             int minCost = 0;
@@ -66,17 +74,17 @@ void Menu::run() {
             // Uruchomienie wybranego algorytmu na podstawie parametru algorithm
             if (algorithm == "brute_force") {
                 start = high_resolution_clock::now();
-                minCost = algorithms.bruteForce(matrix, bestPath);
+                minCost = algorithms.bruteForce(*matrix, bestPath);
                 stop = high_resolution_clock::now();
 
             } else if (algorithm == "nearest_neighbor") {
                 start = high_resolution_clock::now();
-                minCost = algorithms.nearestNeighbor(matrix, bestPath);
+                minCost = algorithms.nearestNeighbor(*matrix, bestPath);
                 stop = high_resolution_clock::now();
 
             } else if (algorithm == "random") {
                 start = high_resolution_clock::now();
-                minCost = algorithms.randomAlgorithm(matrix, bestPath, randomIterations);
+                minCost = algorithms.randomAlgorithm(*matrix, bestPath, randomIterations);
                 stop = high_resolution_clock::now();
 
             } else {
@@ -96,8 +104,9 @@ void Menu::run() {
             cout << endl << endl << endl;
         }
     }
-    cout << "Algorytm " << algorithm << ", dla macierzy o rozmiarze: " << instanceSize << ", sredni czas: " << timer / iterations << " ms\n";
+    cout << "Algorytm " << algorithm << ", dla macierzy o rozmiarze: " << matrix->getSize() << ", sredni czas: " << timer / iterations << " ms\n";
 
+    delete matrix;  // Usuniecie dynamicznie alokowanej macierzy
 }
 
 // Metoda odpowiedzialna za wczytywanie konfiguracji z pliku konfiguracyjnego
@@ -117,7 +126,7 @@ void Menu::loadConfig(const string& configFile) {
             continue;
         }
 
-        string value = extractValue(line);  // Wyciąganie wartosci po znaku "="
+        string value = extractValue(line);  // Wyciaganie wartosci po znaku "="
 
         // Przypisanie wartosci na podstawie numeru linii
         switch (lineCount) {
@@ -128,7 +137,9 @@ void Menu::loadConfig(const string& configFile) {
                 inputFile = value;
                 break;
             case 2:
-                instanceSize = stoi(value);
+                if (!value.empty()) {
+                    instanceSize = stoi(value);
+                }
                 break;
             case 3:
                 displayMatrix = (value == "1");
