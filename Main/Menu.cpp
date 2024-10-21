@@ -137,7 +137,9 @@ void Menu::loadConfig(const string& configFile) {
                 iterations = stoi(value);
                 break;
             case 5:
-                randomIterations = stoi(value);
+                if (!value.empty()) {
+                    randomIterations = stoi(value);
+                }
                 break;
             case 6:
                 algorithm = value;
@@ -163,7 +165,7 @@ void Menu::loadConfig(const string& configFile) {
 string Menu::extractValue(const string& line) {
     size_t tmp = line.find("=");
     if (tmp != string::npos) {
-        return line.substr(tmp + 2);
+        return line.substr(tmp + 1);
     }
     return "";
 }
