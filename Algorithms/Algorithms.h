@@ -21,7 +21,7 @@ public:
     int nearestNeighbor(const Matrix& matrix, vector<int>& bestPath);
 
     // Metoda losowego algorytmu
-    int randomAlgorithm(const Matrix& matrix, vector<int>& bestPath, int iterations);
+    int randomAlgorithm(const Matrix& matrix, vector<int>& bestPath, int randomIterations);
 
 private:
     // Pomocnicza metoda do obliczenia sumy kosztow dla danej permutacji trasy
@@ -29,6 +29,9 @@ private:
 
     // Rekurencyjna funkcja odpowiedzialna za generowanie wszystkich permutacji
     void generatePermutations(int n, vector<int>& cities, const Matrix& matrix, vector<int>& bestPath, int& minCost);
+
+    // Pomocnicza metoda odpowiedzialna za obliczanie silni
+    int factorial(int n);
 };
 
 #endif

@@ -72,8 +72,15 @@ int Algorithms::nearestNeighbor(const Matrix& matrix, vector<int>& bestPath) {
 }
 
 // Metoda losowego algorytmu
-int Algorithms::randomAlgorithm(const Matrix& matrix, vector<int>& bestPath, int iterations) {
+int Algorithms::randomAlgorithm(const Matrix& matrix, vector<int>& bestPath, int randomIterations) {
     int size = matrix.getSize();
+
+    // Obliczenie liczby wszystkich mozliwych permutacji
+    int totalPermutations = factorial(size - 1);
+
+    // Obliczenie liczby iteracji jako procent wszystkich mozliwych permutacji
+    int iterations = (totalPermutations * randomIterations) / 100;
+
     int minCost = INT_MAX;  // Inicjalizacja minimalnego kosztu na najwieksza mozliwa wartosc
 
     // Inicjalizacja generatora liczb losowych
@@ -82,8 +89,7 @@ int Algorithms::randomAlgorithm(const Matrix& matrix, vector<int>& bestPath, int
     for (int i = 0; i < iterations; ++i) {
         vector<int> cities;  // Vector odpowiedzialny za przechowywanie trasy
         vector<bool> visited(size, false);
-
-        int currentCity = 0;
+        int currentCity = rand() % size;;
         cities.push_back(currentCity);
         visited[currentCity] = true;
 
@@ -163,4 +169,13 @@ void Algorithms::generatePermutations(int n, vector<int>& cities, const Matrix& 
             }
         }
     }
+}
+
+// Pomocnicza metoda odpowiedzialna za obliczanie silni
+int Algorithms::factorial(int n) {
+    int result = 1;
+    for (int i = 2; i <= n; ++i) {
+        result *= i;
+    }
+    return result;
 }
