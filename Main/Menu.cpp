@@ -103,8 +103,18 @@ void Menu::run() {
             }
             cout << endl << endl << endl;
         }
+
+        // Wyswietlenie wskaznika postepu
+        if (progressBar) {
+            int progress = ((i + 1) * 100) / iterations;  // Obliczenie procenta ukonczenia symulacji
+            cout << "Postep: " << progress << "%" << endl;
+        }
     }
-    cout << "Algorytm " << algorithm << ", dla macierzy o rozmiarze: " << matrix->getSize() << ", sredni czas: " << timer / iterations << " ms\n";
+
+    // Zapis wynikow do pliku CSV
+    saveResultsToCSV(algorithm, matrix->getSize(), timer / iterations);
+
+    cout << endl << "Algorytm " << algorithm << ", dla macierzy o rozmiarze: " << matrix->getSize() << ", sredni czas: " << timer / iterations << " ms\n";
 
     delete matrix;  // Usuniecie dynamicznie alokowanej macierzy
 }
@@ -179,4 +189,17 @@ string Menu::extractValue(const string& line) {
         return line.substr(tmp + 1);
     }
     return "";
+}
+
+// Metoda odpowiedzialna za zapis wyników do pliku CSV
+void Menu::saveResultsToCSV(const string& algorithm, int size, double time) {
+    ofstream file(outputFile, ios::app);  // Otwieranie pliku w trybie dopisywania
+    if (!file.is_open()) {
+        cerr << "Blad: Nie mozna otworzyc pliku wyjsciowego: " << outputFile << endl;
+        return;
+    }
+
+    file << algorithm << "," << size << "," << time << "\n";
+
+    file.close();
 }

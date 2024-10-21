@@ -12,8 +12,6 @@ add_executable(Projekt_PEA_1 Main/Main.cpp
         Algorithms/Algorithms.h
         Utils/ReadFile.cpp
         Utils/ReadFile.h
-        Utils/WriteFile.cpp
-        Utils/WriteFile.h
         Utils/GenerateMatrix.cpp
         Utils/GenerateMatrix.h)
 
