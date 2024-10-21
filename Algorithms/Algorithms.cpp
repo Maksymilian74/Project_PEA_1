@@ -83,9 +83,6 @@ int Algorithms::randomAlgorithm(const Matrix& matrix, vector<int>& bestPath, int
 
     int minCost = INT_MAX;  // Inicjalizacja minimalnego kosztu na najwieksza mozliwa wartosc
 
-    // Inicjalizacja generatora liczb losowych
-    srand(static_cast<unsigned int>(time(nullptr)));
-
     for (int i = 0; i < iterations; ++i) {
         vector<int> cities;  // Vector odpowiedzialny za przechowywanie trasy
         vector<bool> visited(size, false);

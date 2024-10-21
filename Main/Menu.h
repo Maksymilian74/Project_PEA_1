@@ -28,7 +28,7 @@ private:
     int randomIterations;  // Zmienna przechowujaca liczbe iteracji dla algorytmu losowego
     string algorithm;  // Zmienna przechowujaca nazwe wybranego algorytmu do uruchomienia
     string outputFile;  // Zmienna przechowujaca nazwe pliku wyjsciowego
-    bool progressBar;  // Zmienna przechowujaca informacje czy wyswietlac pasek postepu
+    bool progress;  // Zmienna przechowujaca informacje czy wyswietlac pasek postepu
     bool showResults;  // Zmienna przechowujaca informacje czy wyswietlac wyniki dzialania algorytmu
     high_resolution_clock::time_point start, stop;  // Zmienne do przechowywania punktow czasowych do mierzenia czasu wykonania
     double timer;  // Zmienna przechowujaca zmierzony czas wykonania algorytmu

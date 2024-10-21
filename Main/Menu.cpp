@@ -21,7 +21,7 @@ Menu::Menu() {
     algorithm = "";
     outputFile = "";
     randomIterations = 0;
-    progressBar = false;
+    progress = false;
     showResults = 0;
     timer = 0;
 }
@@ -105,7 +105,7 @@ void Menu::run() {
         }
 
         // Wyswietlenie wskaznika postepu
-        if (progressBar) {
+        if (progress) {
             int progress = ((i + 1) * 100) / iterations;  // Obliczenie procenta ukonczenia symulacji
             cout << "Postep: " << progress << "%" << endl;
         }
@@ -169,7 +169,7 @@ void Menu::loadConfig(const string& configFile) {
                 outputFile = value;
                 break;
             case 8:
-                progressBar = (value == "1");
+                progress = (value == "1");
                 break;
             case 9:
                 showResults = (value == "1");

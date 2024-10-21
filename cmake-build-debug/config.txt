@@ -3,20 +3,20 @@
 # Generowanie danych losowych (0 - nie, 1 - tak)
 generate_data=0
 # Nazwa pliku wejsciowego
-input_file=matrix_6x6.atsp
+input_file=matrix_8x8.atsp
 # Rozmiar instancji
-instance_size=5
+instance_size=8
 # Czy wyswietlic macierz (0 - nie, 1 - tak)
 display_matrix=0
 # Liczba iteracji
 iterations=1
 # Procent wykonanych iteracji dla algorytmu losowego
-random_iterations=50
+random_iterations=20
 # Algorytm do uruchomienia (brute_force, nearest_neighbor, random)
-algorithm=brute_force
+algorithm=random
 # Nazwa pliku wyjsciowego
 output_file=result.csv
 # Wlaczenie paska postepu (0 - nie, 1 - tak)
-progress_bar=0
+progress=0
 # Wyswietlanie wynikow algorytmu
-show_results=0
+show_results=1
