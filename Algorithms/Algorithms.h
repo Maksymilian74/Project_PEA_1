@@ -32,6 +32,9 @@ private:
 
     // Pomocnicza metoda odpowiedzialna za obliczanie silni
     int factorial(int n);
+
+    // Pomocnicza metoda odpowiedzialna za mieszanie elementow wektora
+    void shuffleCities(vector<int>& cities);
 };
 
 #endif

@@ -2,6 +2,7 @@
 #include <climits>
 #include <iostream>
 #include <cstdlib>
+#include <numeric>
 
 using namespace std;
 
@@ -75,42 +76,19 @@ int Algorithms::nearestNeighbor(const Matrix& matrix, vector<int>& bestPath) {
 int Algorithms::randomAlgorithm(const Matrix& matrix, vector<int>& bestPath, int randomIterations) {
     int size = matrix.getSize();
 
-    // Obliczenie liczby wszystkich mozliwych permutacji
-    int totalPermutations = factorial(size - 1);
+    int totalPermutations = factorial(size);  // Obliczenie liczby wszystkich mozliwych permutacji
 
-    // Obliczenie liczby iteracji jako procent wszystkich mozliwych permutacji
-    int iterations = (totalPermutations * randomIterations) / 100;
+    int iterations = (totalPermutations * randomIterations) / 100;  // Obliczenie liczby iteracji jako procent wszystkich mozliwych permutacji
 
     int minCost = INT_MAX;  // Inicjalizacja minimalnego kosztu na najwieksza mozliwa wartosc
 
+    vector<int> cities(size);
+    iota(cities.begin(), cities.end(), 0);  // Wypelnienie miastami od 0 do size-1
+
     for (int i = 0; i < iterations; ++i) {
-        vector<int> cities;  // Vector odpowiedzialny za przechowywanie trasy
-        vector<bool> visited(size, false);
-        int currentCity = rand() % size;;
-        cities.push_back(currentCity);
-        visited[currentCity] = true;
+        shuffleCities(cities);  // Mieszanie miast
 
-        // Budowanie losowej trasy, wybierajac kolejne miasta
-        for (int step = 1; step < size; ++step) {
-            vector<int> remainingCities;  // Miasta jeszcze nieodwiedzone
-            for (int i = 0; i < size; ++i) {
-                if (!visited[i]) {
-                    remainingCities.push_back(i);
-                }
-            }
-
-            if (remainingCities.empty()) {
-                cerr << "Blad: Brak dostepnych miast do odwiedzenia!" << endl;
-                return -1;
-            }
-
-            int nextCity = remainingCities[rand() % remainingCities.size()];
-            cities.push_back(nextCity);
-            visited[nextCity] = true;  // Oznaczenie wybranego miasta jako odwiedzone
-        }
-
-        // Obliczanie kosztu dla losowej trasy
-        int currentCost = calculatePathCost(matrix, cities);
+        int currentCost = calculatePathCost(matrix, cities);  // Obliczanie kosztu dla losowej trasy
 
         // Sprawdzenie, czy obliczony koszt trasy jest mniejszy od aktualnego minimalnego kosztu
         if (currentCost < minCost) {
@@ -121,7 +99,6 @@ int Algorithms::randomAlgorithm(const Matrix& matrix, vector<int>& bestPath, int
 
     return minCost;
 }
-
 
 // Pomocnicza metoda do obliczania kosztu dla danej permutacji trasy
 int Algorithms::calculatePathCost(const Matrix& matrix, const vector<int>& path) {
@@ -165,6 +142,18 @@ void Algorithms::generatePermutations(int n, vector<int>& cities, const Matrix& 
                 swap(cities[0], cities[n - 1]);
             }
         }
+    }
+}
+
+// Pomocnicza metoda odpowiedzialna za mieszanie elementow wektora
+void Algorithms::shuffleCities(vector<int>& cities) {
+    int size = cities.size();
+
+    // Przejscie od ostatniego elementu i zamiana z losowym elementem
+    for (int i = size - 1; i > 0; i--) {
+        int j = rand() % (i + 1);
+
+        swap(cities[i], cities[j]);
     }
 }
 

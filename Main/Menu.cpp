@@ -32,7 +32,7 @@ void Menu::run() {
 
     srand(time(nullptr));  // Inicjalizacja generatora liczb losowych
 
-    Matrix* matrix = nullptr;  // Wskaźnik do dynamicznie alokowanej macierzy
+    Matrix* matrix = nullptr;  // Wskaznik do dynamicznie alokowanej macierzy
 
     if (!generateData) {
         ReadFile fileReader;
